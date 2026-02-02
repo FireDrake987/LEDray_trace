@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="LEDray_trace/LEDray_trace.vcxproj" Id="2f922ada-f96a-48d3-8b72-390e470db059" />
+</Solution>
