@@ -7,7 +7,7 @@ class Plane {
 	Point3D pointOnPlane;
 
 public:
-	Plane(Point3D& p1, Point3D& p2, Point3D& p3);
+	Plane(Point3D p1, Point3D p2, Point3D p3);
 	Plane(double a, double b, double c, double d);
 	Plane(Plane& copy);
 	Plane();

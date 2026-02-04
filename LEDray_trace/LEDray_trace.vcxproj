@@ -153,6 +153,7 @@
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BGRPixel.h" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="LEDray_trace.cpp" />
     <ClCompile Include="pch.cpp">

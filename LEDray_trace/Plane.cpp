@@ -3,7 +3,7 @@
 #include "Point3D.h"
 #include "Vector.h"
 
-Plane::Plane(Point3D &p1, Point3D &p2, Point3D &p3) {
+Plane::Plane(Point3D p1, Point3D p2, Point3D p3) {
 	Vector v1 = Vector(p1, p2);
 	Vector v2 = Vector(p1, p3);
 	Vector n = v1.cross(v2);
@@ -54,7 +54,7 @@ intersectionInfoStruct Plane::getIntersection(Ray ray) {
 	Vector dir = ray.getVector();
 	double denom = A * dir.getX() + B * dir.getY() + C * dir.getZ();
 	if (fabs(denom) < 0.000000001) {//Effectively 0
-		info.t = -1;
+		info.t = -1;//Parallel
 		return info;
 	}
 	double numer = -(A * start.getX() + B * start.getY() + C * start.getZ() + D);
