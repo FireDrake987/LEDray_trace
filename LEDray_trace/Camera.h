@@ -4,16 +4,18 @@
 #include <vector>
 
 class Camera {
+	static double const RENDER;
 	double x, y, z;
 	double width, height;
 	double FOVx, FOVy;
 	Quaternion camRot;
 	std::vector<std::vector<Vector>> map;
 	std::vector<std::vector<BGRPixel>> output;
-	std::vector<Plane> scene;
 	bool ready;
 
 public:
+	std::vector<Plane> scene;
+
 	static enum CameraType {
 		FLAT, CURVED
 	};
@@ -27,8 +29,8 @@ public:
 		y += dy;
 		z += dz;
 	}
-	void move(Vector dir);//Respecting camRot
-	void move(double right, double down, double forwards);//Same thing as vector form
+	void move(Vector dir);//Respecting camRot TODO: add
+	void move(double right, double down, double forwards);//Same thing as vector form TODO: add
 	inline void setRot(Quaternion newRot) {
 		camRot = newRot;
 		invalidate();
@@ -41,8 +43,7 @@ public:
 	void build();//Rebuild Camera based on current data, sets ready=true
 	void buildMap();//Initializes map to proper mapping based on current configurations, called by regenerate
 
-	//Automatically calls build() when ready!=true
-	std::vector<std::vector<BGRPixel>> render();//TODO: Finish function header
+	std::vector<std::vector<BGRPixel>> render();//Automatically calls build() when ready!=true
 
 	Vector angleToVector(double yaw, double pitch);
 };

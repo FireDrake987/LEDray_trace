@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "Triangle.h"
 
-Triangle::Triangle(Point3D p1, Point3D p2, Point3D p3) : Plane(p1, p2, p3) {
+Triangle::Triangle(Material material, Point3D p1, Point3D p2, Point3D p3) : Plane(material, p1, p2, p3) {
 	this->p1 = p1;
 	this->p2 = p2;
 	this->p3 = p3;
 }
-Triangle::Triangle(Triangle* copy) : Plane(copy->p1, copy->p2, copy->p3) {
+Triangle::Triangle(Triangle* copy) : Plane(copy->getMaterial(), copy->p1, copy->p2, copy->p3) {
 	this->p1 = copy->p1;
 	this->p2 = copy->p2;
 	this->p3 = copy->p3;

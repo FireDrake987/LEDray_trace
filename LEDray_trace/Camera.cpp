@@ -2,6 +2,8 @@
 #include "Camera.h"
 #include "Plane.h"
 
+double const Camera::RENDER = DBL_MAX;
+
 Camera::Camera(double x, double y, double z, double width, double height, Quaternion camRot) : width(width), height(height) {
 	this->x = x;
 	this->y = y;
@@ -60,10 +62,24 @@ std::vector<std::vector<BGRPixel>> Camera::render() {
 	}
 	std::vector<std::vector<BGRPixel>> output;
 	for(std::vector<Vector> row : map) {
+		std::vector<BGRPixel> pxRow;
 		for(Vector value : row) {
 			Ray ray(Point3D(x, y, z), value);
 			//TODO: Render scene & init scene
+			double minDist = Camera::RENDER;
+			Plane* minObj;
+			intersectionInfoStruct info;
+			for(Plane obj : scene) {
+				info = obj.getIntersection(ray);
+				if(info.t < 0) { continue; }
+				if(info.t < minDist) {
+					minDist = info.t;
+					minObj = &obj;
+				}
+			}
+			pxRow.push_back(minObj->getMaterial().getColAtPoint(info.point));
 		}
+		output.push_back(pxRow);
 	}
 	return output;
 }

@@ -2,8 +2,10 @@
 #include "Plane.h"
 #include "Point3D.h"
 #include "Vector.h"
+#include "Material.h"
 
-Plane::Plane(Point3D p1, Point3D p2, Point3D p3) {
+Plane::Plane(Material material, Point3D p1, Point3D p2, Point3D p3) {
+	this->mat = mat;
 	Vector v1 = Vector(p1, p2);
 	Vector v2 = Vector(p1, p3);
 	Vector n = v1.cross(v2);
@@ -13,7 +15,8 @@ Plane::Plane(Point3D p1, Point3D p2, Point3D p3) {
 	this->D = -(A*p1.getX()+B*p1.getY()+C*p1.getZ());//Ax+By+Cz+D=0
 	this->pointOnPlane = p1;
 }
-Plane::Plane(double a, double b, double c, double d) {
+Plane::Plane(Material material, double a, double b, double c, double d) {
+	this->mat = material;
 	this->A = a;
 	this->B = b;
 	this->C = c;
@@ -39,6 +42,7 @@ Plane::Plane(Plane &copy) {
 	this->C = copy.getC();
 	this->D = copy.getD();
 	this->pointOnPlane = copy.getPointOnPlane();
+	this->mat = copy.getMaterial();
 }
 Plane::Plane() {
 	this->A = 0;
@@ -46,6 +50,7 @@ Plane::Plane() {
 	this->C = 0;
 	this->D = 0;
 	this->pointOnPlane = Point3D(0, 0, 0);
+	this->mat = Material{};
 }
 
 intersectionInfoStruct Plane::getIntersection(Ray ray) {
