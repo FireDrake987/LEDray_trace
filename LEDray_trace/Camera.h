@@ -1,6 +1,8 @@
 #pragma once
 #include "Quaternion.h"
 #include "BGRPixel.h"
+#include "Plane.h"
+#include "Material.h"
 #include <vector>
 
 class Camera {

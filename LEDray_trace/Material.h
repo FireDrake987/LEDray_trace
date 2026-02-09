@@ -13,9 +13,9 @@ class Material {
 
 public: 
 	Material(BGRPixel col, double luminance, double reflectance, double specularity, double absorbance, double trasmittance, double refractiveIndex);
-	Material(BGRPixel col);
+	Material(BGRPixel &col);
 	Material();
 
-	BGRPixel getColAtPoint(Point3D relPoint, Point3D absPoint) { return col; };
-	BGRPixel getColAtPoint(Point3D relPoint) { return col; }
+	BGRPixel getColAtPoint(Point3D relPoint, Point3D absPoint) const { return col; };
+	BGRPixel getColAtPoint(Point3D relPoint) const { return col; }
 };

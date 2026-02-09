@@ -1,11 +1,10 @@
-#include "pch.h"
 #include "Plane.h"
 #include "Point3D.h"
 #include "Vector.h"
 #include "Material.h"
 
 Plane::Plane(Material material, Point3D p1, Point3D p2, Point3D p3) {
-	this->mat = mat;
+	this->mat = material;
 	Vector v1 = Vector(p1, p2);
 	Vector v2 = Vector(p1, p3);
 	Vector n = v1.cross(v2);

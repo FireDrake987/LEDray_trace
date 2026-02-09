@@ -1,6 +1,7 @@
-#include "pch.h"
 #include "Camera.h"
 #include "Plane.h"
+#include "BGRPixel.h"
+#include "Vector.h"
 
 double const Camera::RENDER = DBL_MAX;
 

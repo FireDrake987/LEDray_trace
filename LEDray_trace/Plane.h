@@ -1,12 +1,12 @@
 #pragma once
 #include "intersectionInfoStruct.h"
 #include "Ray.h"
+#include "Point3D.h"
+#include "Material.h"
 
 class Plane {
 	double A, B, C, D;//Ax+By+Cz+D=0
 	Point3D pointOnPlane;
-
-protected:
 	Material mat;
 
 public:

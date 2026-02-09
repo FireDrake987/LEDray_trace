@@ -1,4 +1,3 @@
-#include "pch.cpp"
 #include "Ray.h"
 
 Ray::Ray(Point3D origin, Vector direction) {

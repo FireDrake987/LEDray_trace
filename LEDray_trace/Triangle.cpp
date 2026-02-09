@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "Triangle.h"
 
 Triangle::Triangle(Material material, Point3D p1, Point3D p2, Point3D p3) : Plane(material, p1, p2, p3) {
