@@ -7,7 +7,7 @@
 
 class Camera {
 	inline static double RENDER = DBL_MAX;
-	inline static BGRPixel DEFAULT_COLOR = BGRPixel(0, 0, 0);
+	inline static BGRPixel DEFAULT_COLOR = BGRPixel{0, 0, 0};
 	double x, y, z;
 	double width, height;
 	double FOVx, FOVy;
