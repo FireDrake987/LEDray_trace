@@ -12,7 +12,6 @@ class Plane {
 public:
 	Plane(Material mat, Point3D p1, Point3D p2, Point3D p3);
 	Plane(Material mat, double a, double b, double c, double d);
-	Plane(Plane& copy);
 	Plane();
 
 	intersectionInfoStruct getIntersection(Ray ray);

@@ -35,14 +35,6 @@ Plane::Plane(Material material, double a, double b, double c, double d) {
 	//Ax+By+Cz+D=0
 	//x=-(By+Cz+D)/A
 }
-Plane::Plane(Plane &copy) {
-	this->A = copy.getA();
-	this->B = copy.getB();
-	this->C = copy.getC();
-	this->D = copy.getD();
-	this->pointOnPlane = copy.getPointOnPlane();
-	this->mat = copy.getMaterial();
-}
 Plane::Plane() {
 	this->A = 0;
 	this->B = 0;

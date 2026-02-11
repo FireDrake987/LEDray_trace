@@ -10,7 +10,6 @@ class Triangle : public Plane {
 
 public: 
 	Triangle(Material mat, Point3D p1, Point3D p2, Point3D p3);
-	Triangle(Triangle *copy);
 	Triangle();
 
 	intersectionInfoStruct getIntersection(Ray ray);
