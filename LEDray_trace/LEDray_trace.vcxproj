@@ -142,7 +142,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="intersectionInfoStruct.h" />
-    <ClInclude Include="LEDmath.h" />
     <ClInclude Include="LEDray_trace.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Plane.h" />

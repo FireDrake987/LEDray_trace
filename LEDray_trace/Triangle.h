@@ -3,7 +3,7 @@
 #include "Point3D.h"
 #include "Material.h"
 
-class Triangle : Plane {
+class Triangle : public Plane {
 	Point3D p1;
 	Point3D p2;
 	Point3D p3;
