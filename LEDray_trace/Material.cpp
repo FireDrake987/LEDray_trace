@@ -10,5 +10,5 @@ Material::Material(BGRPixel col, double luminance, double reflectance, double sp
 	this->transmittance = trasmittance;
 	this->refractiveIndex = refractiveIndex;
 }
-Material::Material(BGRPixel &col) : Material(col, 0, 0, 1, 1, 0, 1) {}
+Material::Material(BGRPixel col) : Material(col, 0, 0, 1, 1, 0, 1) {}
 Material::Material() : Material(BGRPixel(), 0, 0, 1, 1, 0, 1) {}
