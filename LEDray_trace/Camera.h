@@ -19,7 +19,7 @@ class Camera {
 public:
 	std::vector<Plane> scene;
 
-	static enum CameraType {
+	enum CameraType {
 		FLAT, CURVED
 	};
 	inline static CameraType type = FLAT;

@@ -67,7 +67,8 @@ std::vector<std::vector<BGRPixel>> Camera::render(int x1, int y1, int x2, int y2
 			Vector value = row.at(j);
 			Ray ray(Point3D(x, y, z), value);
 			double minDist = Camera::RENDER;
-			Plane* minObj = &Plane();
+			Plane minPlane = Plane();
+			Plane* minObj = &minPlane;
 			intersectionInfoStruct info;
 			for(Plane obj : scene) {
 				info = obj.getIntersection(ray);
