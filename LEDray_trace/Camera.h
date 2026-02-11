@@ -6,7 +6,8 @@
 #include <vector>
 
 class Camera {
-	static double const RENDER;
+	inline static double RENDER = DBL_MAX;
+	inline static BGRPixel DEFAULT_COLOR = BGRPixel(0, 0, 0);
 	double x, y, z;
 	double width, height;
 	double FOVx, FOVy;
@@ -45,7 +46,7 @@ public:
 	void build();//Rebuild Camera based on current data, sets ready=true
 	void buildMap();//Initializes map to proper mapping based on current configurations, called by regenerate
 
-	std::vector<std::vector<BGRPixel>> render();//Automatically calls build() when ready!=true
+	std::vector<std::vector<BGRPixel>> render(int x1, int y1, int x2, int y2);//Automatically calls build() when ready!=true
 
 	Vector angleToVector(double yaw, double pitch);
 };

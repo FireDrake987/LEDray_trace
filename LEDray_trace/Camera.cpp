@@ -3,8 +3,6 @@
 #include "BGRPixel.h"
 #include "Vector.h"
 
-double const Camera::RENDER = DBL_MAX;
-
 Camera::Camera(double x, double y, double z, double width, double height, Quaternion camRot) : width(width), height(height) {
 	this->x = x;
 	this->y = y;
@@ -57,18 +55,19 @@ void Camera::buildMap() {
 		}
 	}
 }
-std::vector<std::vector<BGRPixel>> Camera::render() {
+std::vector<std::vector<BGRPixel>> Camera::render(int x1, int y1, int x2, int y2) {
 	if(!ready) {
 		build();
 	}
 	std::vector<std::vector<BGRPixel>> output;
-	for(std::vector<Vector> row : map) {
+	for(int i = y1; i < y2; i++) {
+		std::vector<Vector> row = map.at(i);
 		std::vector<BGRPixel> pxRow;
-		for(Vector value : row) {
+		for(int j = x1; j < x2; j++) {
+			Vector value = row.at(j);
 			Ray ray(Point3D(x, y, z), value);
-			//TODO: Render scene & init scene
 			double minDist = Camera::RENDER;
-			Plane* minObj;
+			Plane* minObj = &Plane();
 			intersectionInfoStruct info;
 			for(Plane obj : scene) {
 				info = obj.getIntersection(ray);
@@ -78,7 +77,10 @@ std::vector<std::vector<BGRPixel>> Camera::render() {
 					minObj = &obj;
 				}
 			}
-			pxRow.push_back(minObj->getMaterial().getColAtPoint(info.point));
+			if (minDist < Camera::RENDER * 0.9999999999) {
+				pxRow.push_back(minObj->getMaterial().getColAtPoint(info.point));
+			}
+			pxRow.push_back(Camera::DEFAULT_COLOR);
 		}
 		output.push_back(pxRow);
 	}
