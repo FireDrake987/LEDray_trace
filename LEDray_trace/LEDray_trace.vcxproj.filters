@@ -79,5 +79,11 @@
     <Library Include="LEDmathDebug.lib">
       <Filter>Resource Files</Filter>
     </Library>
+    <Library Include="..\x64\Release\LEDray_trace.lib">
+      <Filter>Source Files</Filter>
+    </Library>
+    <Library Include="..\x64\Debug\LEDray_trace.lib">
+      <Filter>Source Files</Filter>
+    </Library>
   </ItemGroup>
 </Project>
