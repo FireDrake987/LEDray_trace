@@ -38,10 +38,10 @@ void Camera::buildMap() {
 		Vector addX = angleToVector(FOVx / 2, -FOVy / 2) - min;
 		Vector addY = angleToVector(-FOVx / 2, FOVy / 2) - min;;
 		for (int h = 0; h < height; h++) {
-			double hRatio = h / height;
+			double hRatio = (1.0*h) / height;
 			std::vector<Vector> accumulator;
 			for(int w = 0; w < width; w++) {
-				double wRatio = w / width;
+				double wRatio = (1.0*w) / width;
 				accumulator.push_back(min + wRatio*addX + hRatio*addY);
 			}
 			map.push_back(accumulator);
@@ -66,22 +66,24 @@ std::vector<std::vector<BGRPixel>> Camera::render(int x1, int y1, int x2, int y2
 		for(int j = x1; j < x2; j++) {
 			Vector value = row.at(j);
 			Ray ray(Point3D(x, y, z), value);
-			double minDist = Camera::RENDER;
 			Plane minPlane = Plane();
 			Plane* minObj = &minPlane;
-			intersectionInfoStruct info;
-			for(Plane obj : scene) {
-				info = obj.getIntersection(ray);
+			intersectionInfoStruct minInfo;
+			minInfo.t = Camera::RENDER;
+			for(Plane& obj : scene) {
+				intersectionInfoStruct info = obj.getIntersection(ray);
 				if(info.t < 0) { continue; }
-				if(info.t < minDist) {
-					minDist = info.t;
+				if(info.t < minInfo.t) {
+					minInfo = info;
 					minObj = &obj;
 				}
 			}
-			if (minDist < Camera::RENDER * 0.9999999999) {
-				pxRow.push_back(minObj->getMaterial().getColAtPoint(info.point));
+			if (minInfo.t < Camera::RENDER * 0.9999999999) {
+				pxRow.push_back(minObj->getMaterial().getColAtPoint(minInfo.point));
 			}
-			pxRow.push_back(Camera::DEFAULT_COLOR);
+			else {
+				pxRow.push_back(Camera::DEFAULT_COLOR);
+			}
 		}
 		output.push_back(pxRow);
 	}
