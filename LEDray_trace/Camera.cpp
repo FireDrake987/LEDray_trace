@@ -3,13 +3,15 @@
 #include "BGRPixel.h"
 #include "Vector.h"
 
+double const PI = 3.14159265358979323846264338327950288;//I think thats enough precision
+
 Camera::Camera(double x, double y, double z, double width, double height, Quaternion camRot) : width(width), height(height) {
 	this->x = x;
 	this->y = y;
 	this->z = z;
 	this->camRot = camRot;
-	this->FOVx = 90;
-	this->FOVy = 75;
+	this->FOVx = PI/2;
+	this->FOVy = 5*PI/12;
 	this->ready = false;
 }
 Camera::Camera() : width(0), height(0) {
@@ -17,8 +19,8 @@ Camera::Camera() : width(0), height(0) {
 	this->y = 0;
 	this->z = 0;
 	this->camRot = Quaternion();
-	this->FOVx = 90;
-	this->FOVy = 75;
+	this->FOVx = PI/2;
+	this->FOVy = 5*PI/12;
 	this->ready = false;
 }
 void Camera::invalidate() {
