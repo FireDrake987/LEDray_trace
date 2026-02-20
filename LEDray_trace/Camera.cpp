@@ -72,12 +72,12 @@ std::vector<std::vector<BGRPixel>> Camera::render(int x1, int y1, int x2, int y2
 			Plane* minObj = &minPlane;
 			intersectionInfoStruct minInfo;
 			minInfo.t = Camera::RENDER;
-			for(Plane& obj : scene) {
-				intersectionInfoStruct info = obj.getIntersection(ray);
+			for(Plane *obj : scene) {
+				intersectionInfoStruct info = obj->getIntersection(ray);
 				if(info.t < 0) { continue; }
 				if(info.t < minInfo.t) {
 					minInfo = info;
-					minObj = &obj;
+					minObj = obj;
 				}
 			}
 			if (minInfo.t < Camera::RENDER * 0.9999999999) {
