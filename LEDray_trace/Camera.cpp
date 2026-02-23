@@ -44,14 +44,15 @@ void Camera::buildMap() {
 			std::vector<Vector> accumulator;
 			for(int w = 0; w < width; w++) {
 				double wRatio = (1.0*w) / width;
-				accumulator.push_back(min + wRatio*addX + hRatio*addY);
+				Vector result = min + wRatio * addX + hRatio * addY;
+				accumulator.push_back(result.normalize());
 			}
 			map.push_back(accumulator);
 		}
 	}
 	else if(type == CURVED) {
-		for (double yaw = (-FOVx / 2); yaw < FOVx / 2; yaw += (-FOVx / 2) / width) {
-			for (double pitch = (-FOVy / 2); pitch < FOVy / 2; pitch += (-FOVy / 2) / height) {
+		for (double yaw = (-FOVx / 2); yaw < FOVx / 2; yaw += FOVx / width) {
+			for (double pitch = (-FOVy / 2); pitch < FOVy / 2; pitch += FOVy / height) {
 				//Not doing this today sry
 			}
 		}
@@ -68,8 +69,7 @@ std::vector<std::vector<BGRPixel>> Camera::render(int x1, int y1, int x2, int y2
 		for(int j = x1; j < x2; j++) {
 			Vector value = row.at(j);
 			Ray ray(Point3D(x, y, z), value);
-			Plane minPlane = Plane();
-			Plane* minObj = &minPlane;
+			Plane* minObj = nullptr;
 			intersectionInfoStruct minInfo;
 			minInfo.t = Camera::RENDER;
 			for(Plane *obj : scene) {
@@ -80,7 +80,7 @@ std::vector<std::vector<BGRPixel>> Camera::render(int x1, int y1, int x2, int y2
 					minObj = obj;
 				}
 			}
-			if (minInfo.t < Camera::RENDER * 0.9999999999) {
+			if (minObj && minInfo.t < Camera::RENDER * 0.9999999999) {
 				pxRow.push_back(minObj->getMaterial().getColAtPoint(minInfo.point));
 			}
 			else {

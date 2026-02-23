@@ -16,8 +16,7 @@ intersectionInfoStruct Triangle::getIntersection(Ray ray) {
 	double sub3 = triangleArea(p, p1, p3);
 	double area = triangleArea(p1, p2, p3);
 	if(sub1 + sub2 + sub3 > area * 1.00000001) {
-		//Point outside triangle
-		info.t = -1;
+		info.t = -1;//Point outside triangle
 		return info;
 	}
 	return info;//Point inside triangle, we are fine
