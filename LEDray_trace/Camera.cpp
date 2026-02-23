@@ -36,27 +36,27 @@ void Camera::build() {
 void Camera::buildMap() {
 	this->map.clear();
 	if(type == FLAT) {
-		Vector min = angleToVector(-FOVx / 2, -FOVy / 2);
-		Vector addX = angleToVector(FOVx / 2, -FOVy / 2) - min;
-		Vector addY = angleToVector(-FOVx / 2, FOVy / 2) - min;;
+		Vector min = angleToVector(-FOVx / 2, -FOVy / 2).normalize();
+		Vector addX = (angleToVector(FOVx / 2, -FOVy / 2) - min).normalize();
+		Vector addY = (angleToVector(-FOVx / 2, FOVy / 2) - min).normalize();
 		for (int h = 0; h < height; h++) {
-			double hRatio = (1.0*h) / height;
+			double hRatio = (1.0*h) / (height-1);
 			std::vector<Vector> accumulator;
 			for(int w = 0; w < width; w++) {
-				double wRatio = (1.0*w) / width;
-				Vector result = min + wRatio * addX + hRatio * addY;
+				double wRatio = (1.0*w) / (width-1);
+				Vector result = min + addX * wRatio + addY * hRatio;
 				accumulator.push_back(result.normalize());
 			}
 			map.push_back(accumulator);
 		}
 	}
-	else if(type == CURVED) {
+	/*else if (type == CURVED) {
 		for (double yaw = (-FOVx / 2); yaw < FOVx / 2; yaw += FOVx / width) {
 			for (double pitch = (-FOVy / 2); pitch < FOVy / 2; pitch += FOVy / height) {
 				//Not doing this today sry
 			}
 		}
-	}
+	}*/
 }
 std::vector<std::vector<BGRPixel>> Camera::render(int x1, int y1, int x2, int y2) {
 	if(!ready) {
@@ -96,5 +96,5 @@ Vector Camera::angleToVector(double yaw, double pitch) {
 	double sinpitch = sinf(pitch);
 	double cosyaw = cosf(yaw);
 	double cospitch = cosf(pitch);
-	return Vector(cospitch*sinyaw, -sinpitch, cospitch*cosyaw);
+	return Vector(cospitch*sinyaw, sinpitch, cospitch*cosyaw);
 }
