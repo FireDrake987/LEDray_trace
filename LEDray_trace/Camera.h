@@ -50,8 +50,8 @@ public:
 
 	Vector angleToVector(double yaw, double pitch);
 
-	void changeFOV(double FOVx, double FOVy) {
-		this->FOVx = FOVx;
-		this->FOVy = FOVy;
+	void setFOV(double x, double y) {
+		this->FOVx = x;
+		this->FOVy = y;
 	}
 };
