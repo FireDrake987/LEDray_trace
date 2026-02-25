@@ -51,13 +51,16 @@ void Camera::buildMap() {
 			map.push_back(accumulator);
 		}
 	}
-	/*else if (type == CURVED) {
+	else if (type == CURVED) {
 		for (double yaw = (-FOVx / 2); yaw < FOVx / 2; yaw += FOVx / width) {
+			std::vector<Vector> accumulator;
 			for (double pitch = (-FOVy / 2); pitch < FOVy / 2; pitch += FOVy / height) {
-				//Not doing this today sry
+				Vector result = angleToVector(yaw, pitch).normalize();
+				accumulator.push_back(result);
 			}
+			map.push_back(accumulator);
 		}
-	}*/
+	}
 }
 void Camera::eulerRotate(double yaw, double pitch) {
 	Vector yawAxis = Vector(0, 1, 0);

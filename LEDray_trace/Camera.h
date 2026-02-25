@@ -22,7 +22,7 @@ public:
 	enum CameraType {
 		FLAT, CURVED
 	};
-	inline static CameraType type = FLAT;
+	inline static CameraType type = CURVED;
 
 	Camera(double x, double y, double z, double width, double height, Quaternion camRot);
 	Camera();
