@@ -45,6 +45,7 @@ void Camera::buildMap() {
 			for(int w = 0; w < width; w++) {
 				double wRatio = (1.0*w) / (width-1);
 				Vector result = min + addX * wRatio + addY * hRatio;
+				result = camRot.apply(result.asPoint());
 				accumulator.push_back(result.normalize());
 			}
 			map.push_back(accumulator);
@@ -57,6 +58,15 @@ void Camera::buildMap() {
 			}
 		}
 	}*/
+}
+void Camera::eulerRotate(double yaw, double pitch) {
+	Vector yawAxis = Vector(0, 1, 0);
+	Vector pitchAxis = Vector(1, 0, 0);//Rotate this around yaw as well
+	Quaternion yawQ = Quaternion(cos(yaw / 2), yawAxis * sin(yaw / 2));
+	pitchAxis = yawQ.apply(pitchAxis.asPoint());
+	Quaternion pitchQ = Quaternion(cos(pitch / 2), pitchAxis * sin(pitch / 2));
+	camRot = camRot * yawQ * pitchQ;
+	camRot = camRot.normalize();
 }
 std::vector<std::vector<BGRPixel>> Camera::render(int x1, int y1, int x2, int y2) {
 	if(!ready) {
