@@ -68,6 +68,11 @@ void Camera::eulerRotate(double yaw, double pitch) {
 	camRot = camRot * yawQ * pitchQ;
 	camRot = camRot.normalize();
 }
+
+void Camera::eulerRotate(double yaw, double pitch, double roll) {
+	//Yeah, doing this later
+}
+
 std::vector<std::vector<BGRPixel>> Camera::render(int x1, int y1, int x2, int y2) {
 	if(!ready) {
 		build();
