@@ -83,7 +83,7 @@ std::vector<std::vector<BGRPixel>> Camera::render(int x1, int y1, int x2, int y2
 		std::vector<BGRPixel> pxRow;
 		for(int j = x1; j < x2; j++) {
 			Vector value = row.at(j);
-			Ray ray(Point3D(x, y, z), value);
+			Ray ray = Ray(Point3D(x, y, z), value);
 			Plane* minObj = nullptr;
 			intersectionInfoStruct minInfo;
 			minInfo.t = Camera::RENDER;
