@@ -65,16 +65,27 @@ void Camera::buildMap() {
 }
 void Camera::eulerRotate(double yaw, double pitch) {
 	Vector yawAxis = Vector(0, 1, 0);
-	Vector pitchAxis = Vector(1, 0, 0);//Rotate this around yaw as well
+	Vector pitchAxis = Vector(1, 0, 0);
+	yawAxis = camRot.apply(yawAxis.asPoint());
 	Quaternion yawQ = Quaternion(cos(yaw / 2), yawAxis * sin(yaw / 2));
-	pitchAxis = yawQ.apply(pitchAxis.asPoint());
+	pitchAxis = camRot.apply(pitchAxis.asPoint());
 	Quaternion pitchQ = Quaternion(cos(pitch / 2), pitchAxis * sin(pitch / 2));
-	camRot = camRot * yawQ * pitchQ;
+	camRot = yawQ * pitchQ * camRot;
 	camRot = camRot.normalize();
 }
 
 void Camera::eulerRotate(double yaw, double pitch, double roll) {
-	//Yeah, doing this later
+	Vector yawAxis = Vector(0, 1, 0);
+	Vector pitchAxis = Vector(1, 0, 0);
+	Vector rollAxis = Vector(0, 0, 1);
+	yawAxis = camRot.apply(yawAxis.asPoint());
+	Quaternion yawQ = Quaternion(cos(yaw / 2), yawAxis * sin(yaw / 2));
+	pitchAxis = camRot.apply(pitchAxis.asPoint());
+	Quaternion pitchQ = Quaternion(cos(pitch / 2), pitchAxis * sin(pitch / 2));
+	rollAxis = camRot.apply(rollAxis.asPoint());
+	Quaternion rollQ = Quaternion(cos(roll / 2), rollAxis * sin(roll / 2));
+	camRot = yawQ * pitchQ * rollQ * camRot;
+	camRot = camRot.normalize();
 }
 
 std::vector<std::vector<BGRPixel>> Camera::render(int x1, int y1, int x2, int y2) {
