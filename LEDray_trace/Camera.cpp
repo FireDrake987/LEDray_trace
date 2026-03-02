@@ -56,6 +56,7 @@ void Camera::buildMap() {
 			std::vector<Vector> accumulator;
 			for (double yaw = (-FOVx / 2); yaw < FOVx / 2; yaw += FOVx / width) {
 				Vector result = angleToVector(yaw, pitch).normalize();
+				result = camRot.apply(result.asPoint());
 				accumulator.push_back(result);
 			}
 			map.push_back(accumulator);
