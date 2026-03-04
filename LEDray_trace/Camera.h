@@ -32,8 +32,8 @@ public:
 		y += dy;
 		z += dz;
 	}
-	void move(Vector dir);//Respecting camRot TODO: add
-	void move(double right, double down, double forwards);//Same thing as vector form TODO: add
+	void move(Vector dir);
+	void move(double right, double down, double forwards);
 	inline void setRot(Quaternion newRot) {
 		camRot = newRot;
 		invalidate();

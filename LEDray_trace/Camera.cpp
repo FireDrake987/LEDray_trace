@@ -28,6 +28,18 @@ void Camera::invalidate() {
 	this->output.clear();
 	this->map.clear();
 }
+void Camera::move(Vector dir) {
+	Camera::move(dir.getX(), dir.getY(), dir.getZ());
+}
+void Camera::move(double right, double down, double forwards) {
+	Vector rightVec = camRot.apply(Vector(1, 0, 0).asPoint());
+	Vector downVec = camRot.apply(Vector(0, 1, 0).asPoint());
+	Vector forwardVec = camRot.apply(Vector(0, 0, 1).asPoint());
+	this->x += rightVec.getX() * right + downVec.getX() * down + forwardVec.getX() * forwards;
+	this->y += rightVec.getY() * right + downVec.getY() * down + forwardVec.getY() * forwards;
+	this->z += rightVec.getZ() * right + downVec.getZ() * down + forwardVec.getZ() * forwards;
+	invalidate();
+}
 void Camera::build() {
 	buildMap();
 	this->output.clear();
