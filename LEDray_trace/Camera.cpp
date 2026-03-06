@@ -98,11 +98,12 @@ void Camera::eulerRotate(double yaw, double pitch, double roll) {
 	camRot = camRot.normalize();
 }
 
-BGRPixel* Camera::render(int x1, int y1, int x2, int y2) {
+std::vector<BGRPixel> Camera::render(int x1, int y1, int x2, int y2) {
 	if(!ready) {
 		build();
 	}
 	std::vector<BGRPixel> output;
+	output.reserve((x2-x1) * (y2-y1));
 	for(int i = y1; i < y2; i++) {
 		std::vector<Vector> row = map.at(i);
 		for(int j = x1; j < x2; j++) {
@@ -127,7 +128,7 @@ BGRPixel* Camera::render(int x1, int y1, int x2, int y2) {
 			}
 		}
 	}
-	return output.data();
+	return output;
 }
 Vector Camera::angleToVector(double yaw, double pitch) {
 	double sinyaw = sinf(yaw);
