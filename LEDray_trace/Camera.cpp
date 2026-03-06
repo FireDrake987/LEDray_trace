@@ -25,7 +25,6 @@ Camera::Camera() : width(0), height(0) {
 }
 void Camera::invalidate() {
 	this->ready = false;
-	this->output.clear();
 	this->map.clear();
 }
 void Camera::move(Vector dir) {
@@ -42,7 +41,6 @@ void Camera::move(double right, double down, double forwards) {
 }
 void Camera::build() {
 	buildMap();
-	this->output.clear();
 	this->ready = true;
 }
 void Camera::buildMap() {
@@ -100,14 +98,13 @@ void Camera::eulerRotate(double yaw, double pitch, double roll) {
 	camRot = camRot.normalize();
 }
 
-std::vector<std::vector<BGRPixel>> Camera::render(int x1, int y1, int x2, int y2) {
+BGRPixel* Camera::render(int x1, int y1, int x2, int y2) {
 	if(!ready) {
 		build();
 	}
-	std::vector<std::vector<BGRPixel>> output;
+	std::vector<BGRPixel> output;
 	for(int i = y1; i < y2; i++) {
 		std::vector<Vector> row = map.at(i);
-		std::vector<BGRPixel> pxRow;
 		for(int j = x1; j < x2; j++) {
 			Vector value = row.at(j);
 			Ray ray = Ray(Point3D(x, y, z), value);
@@ -123,15 +120,14 @@ std::vector<std::vector<BGRPixel>> Camera::render(int x1, int y1, int x2, int y2
 				}
 			}
 			if (minObj && minInfo.t < Camera::RENDER * 0.9999999999) {
-				pxRow.push_back(minObj->getMaterial().getColAtPoint(minInfo.point));
+				output.push_back(minObj->getMaterial().getColAtPoint(minInfo.point, scene));
 			}
 			else {
-				pxRow.push_back(Camera::DEFAULT_COLOR);
+				output.push_back(Camera::DEFAULT_COLOR);
 			}
 		}
-		output.push_back(pxRow);
 	}
-	return output;
+	return output.data();
 }
 Vector Camera::angleToVector(double yaw, double pitch) {
 	double sinyaw = sinf(yaw);
