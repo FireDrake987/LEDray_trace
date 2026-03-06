@@ -48,7 +48,7 @@ public:
 	void build();//Rebuild Camera based on current data, sets ready=true
 	void buildMap();//Initializes map to proper mapping based on current configurations, called by regenerate
 
-	BGRPixel* render(int x1, int y1, int x2, int y2);//Automatically calls build() when ready!=true
+	BGRPixel render(int x1, int y1, int x2, int y2);//Automatically calls build() when ready!=true
 
 	Vector angleToVector(double yaw, double pitch);
 

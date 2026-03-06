@@ -98,7 +98,7 @@ void Camera::eulerRotate(double yaw, double pitch, double roll) {
 	camRot = camRot.normalize();
 }
 
-BGRPixel* Camera::render(int x1, int y1, int x2, int y2) {
+BGRPixel Camera::render(int x1, int y1, int x2, int y2) {
 	if(!ready) {
 		build();
 	}
@@ -127,7 +127,7 @@ BGRPixel* Camera::render(int x1, int y1, int x2, int y2) {
 			}
 		}
 	}
-	return output.data();
+	return *(output.data());
 }
 Vector Camera::angleToVector(double yaw, double pitch) {
 	double sinyaw = sinf(yaw);
