@@ -2,6 +2,8 @@
 #include "Plane.h"
 #include "BGRPixel.h"
 #include "Vector.h"
+#include <mutex>
+#include <shared_mutex>
 
 double const PI = 3.14159265358979323846264338327950288;//I think thats enough precision
 
@@ -31,6 +33,7 @@ void Camera::move(Vector dir) {
 	Camera::move(dir.getX(), dir.getY(), dir.getZ());
 }
 void Camera::move(double right, double down, double forwards) {
+	std::unique_lock<std::shared_mutex> lock(invalidateMut);
 	Vector rightVec = camRot.apply(Vector(1, 0, 0).asPoint());
 	Vector downVec = camRot.apply(Vector(0, 1, 0).asPoint());
 	Vector forwardVec = camRot.apply(Vector(0, 0, 1).asPoint());
@@ -40,6 +43,7 @@ void Camera::move(double right, double down, double forwards) {
 	invalidate();
 }
 void Camera::build() {
+	std::unique_lock<std::shared_mutex> lock(invalidateMut);
 	buildMap();
 	this->ready = true;
 }
@@ -74,6 +78,7 @@ void Camera::buildMap() {
 	}
 }
 void Camera::eulerRotate(double yaw, double pitch) {
+	std::unique_lock<std::shared_mutex> lock(invalidateMut);
 	Vector yawAxis = Vector(0, 1, 0);
 	Vector pitchAxis = Vector(1, 0, 0);
 	yawAxis = camRot.apply(yawAxis.asPoint());
@@ -82,9 +87,11 @@ void Camera::eulerRotate(double yaw, double pitch) {
 	Quaternion pitchQ = Quaternion(cos(pitch / 2), pitchAxis * sin(pitch / 2));
 	camRot = yawQ * pitchQ * camRot;
 	camRot = camRot.normalize();
+	invalidate();
 }
 
 void Camera::eulerRotate(double yaw, double pitch, double roll) {
+	std::unique_lock<std::shared_mutex> lock(invalidateMut);
 	Vector yawAxis = Vector(0, 1, 0);
 	Vector pitchAxis = Vector(1, 0, 0);
 	Vector rollAxis = Vector(0, 0, 1);
@@ -96,9 +103,11 @@ void Camera::eulerRotate(double yaw, double pitch, double roll) {
 	Quaternion rollQ = Quaternion(cos(roll / 2), rollAxis * sin(roll / 2));
 	camRot = yawQ * pitchQ * rollQ * camRot;
 	camRot = camRot.normalize();
+	invalidate();
 }
 
 std::vector<BGRPixel> Camera::render(int x1, int y1, int x2, int y2) {
+	std::shared_lock<std::shared_mutex> lock(invalidateMut);
 	if(!ready) {
 		build();
 	}
@@ -120,7 +129,7 @@ std::vector<BGRPixel> Camera::render(int x1, int y1, int x2, int y2) {
 					minObj = obj;
 				}
 			}
-			if (minObj && minInfo.t < Camera::RENDER * 0.9999999999) {
+			if(minObj && minInfo.t < Camera::RENDER * 0.9999999999) {
 				output.push_back(minObj->getMaterial().getColAtPoint(minInfo.point, scene));
 			}
 			else {
