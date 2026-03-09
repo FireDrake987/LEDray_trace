@@ -65,10 +65,10 @@ void Camera::buildMap() {
 			map.push_back(accumulator);
 		}
 	}
-	else if (type == CURVED) {
-		for (double pitch = (-FOVy / 2); pitch < FOVy / 2; pitch += FOVy / height) {
+	else if(type == CURVED) {
+		for(double pitch = (-FOVy / 2); pitch < FOVy / 2; pitch += FOVy / height) {
 			std::vector<Vector> accumulator;
-			for (double yaw = (-FOVx / 2); yaw < FOVx / 2; yaw += FOVx / width) {
+			for(double yaw = (-FOVx / 2); yaw < FOVx / 2; yaw += FOVx / width) {
 				Vector result = angleToVector(yaw, pitch).normalize();
 				result = camRot.apply(result.asPoint());
 				accumulator.push_back(result);
