@@ -27,7 +27,6 @@ Camera::Camera() : width(0), height(0) {
 }
 void Camera::invalidate() {
 	this->ready = false;
-	this->map.clear();
 }
 void Camera::move(Vector dir) {
 	Camera::move(dir.getX(), dir.getY(), dir.getZ());
@@ -107,10 +106,10 @@ void Camera::eulerRotate(double yaw, double pitch, double roll) {
 }
 
 std::vector<BGRPixel> Camera::render(int x1, int y1, int x2, int y2) {
-	std::shared_lock<std::shared_mutex> lock(invalidateMut);
 	if(!ready) {
 		build();
 	}
+	std::shared_lock<std::shared_mutex> lock(invalidateMut);
 	std::vector<BGRPixel> output;
 	output.reserve((x2-x1) * (y2-y1));
 	for(int i = y1; i < y2; i++) {
