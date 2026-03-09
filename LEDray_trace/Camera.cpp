@@ -43,6 +43,7 @@ void Camera::move(double right, double down, double forwards) {
 }
 void Camera::build() {
 	std::unique_lock<std::shared_mutex> lock(invalidateMut);
+	if(ready) {return;}
 	buildMap();
 	this->ready = true;
 }
