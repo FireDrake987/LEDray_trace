@@ -83,7 +83,7 @@ void Camera::eulerRotate(double yaw, double pitch) {
 	Vector pitchAxis = Vector(1, 0, 0);
 	yawAxis = camRot.apply(yawAxis.asPoint());
 	Quaternion yawQ = Quaternion(cos(yaw / 2), yawAxis * sin(yaw / 2));
-	pitchAxis = camRot.apply(pitchAxis.asPoint());
+	//pitchAxis = camRot.apply(pitchAxis.asPoint());//Disabled in order to prevent roll drift in function for fps style camera controls
 	Quaternion pitchQ = Quaternion(cos(pitch / 2), pitchAxis * sin(pitch / 2));
 	camRot = yawQ * pitchQ * camRot;
 	camRot = camRot.normalize();
@@ -129,7 +129,7 @@ std::vector<BGRPixel> Camera::render(int x1, int y1, int x2, int y2) {
 					minObj = obj;
 				}
 			}
-			if(minObj && minInfo.t < Camera::RENDER * 0.9999999999) {
+			if(minObj && minInfo.t < Camera::RENDER) {
 				output.push_back(minObj->getMaterial().getColAtPoint(minInfo.point, scene));
 			}
 			else {
