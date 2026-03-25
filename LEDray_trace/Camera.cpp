@@ -118,13 +118,16 @@ std::vector<BGRPixel> Camera::render(int x1, int y1, int x2, int y2) {
 		for(int j = x1; j < x2; j++) {
 			Vector value = row.at(j);
 			Ray ray = Ray(Point3D(x, y, z), value);
-			output.push_back(traceRay(ray));
+			output.push_back(traceRay(ray, 1));
 		}
 	}
 	return output;
 }
 
-BGRPixel Camera::traceRay(Ray ray) {
+BGRPixel Camera::traceRay(Ray ray, double str) {
+	if(str < 0.1) {
+		return Camera::DEFAULT_COLOR;
+	}
 	Plane* minObj = nullptr;
 	intersectionInfoStruct minInfo;
 	minInfo.t = Camera::RENDER;
@@ -137,7 +140,7 @@ BGRPixel Camera::traceRay(Ray ray) {
 		}
 	}
 	if(minObj && minInfo.t < Camera::RENDER) {
-		return minObj->getMaterial().getColAtPoint(minInfo.point, this, ray, minObj);
+		return minObj->getMaterial().getColAtPoint(minInfo.point, this, ray, minObj, str);
 	}
 	else {
 		return Camera::DEFAULT_COLOR;

@@ -57,7 +57,7 @@ public:
 
 	std::vector<BGRPixel> render(int x1, int y1, int x2, int y2);//Automatically calls build() when ready!=true
 
-	BGRPixel traceRay(Ray ray);
+	BGRPixel traceRay(Ray ray, double str);
 
 	Vector angleToVector(double yaw, double pitch);
 

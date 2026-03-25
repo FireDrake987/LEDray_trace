@@ -14,5 +14,5 @@ public:
 	Material(BGRPixel col);
 	Material();
 
-	virtual BGRPixel getColAtPoint(Point3D intPoint, Camera *cam, Ray &ray, Plane *plane) const { return col; }
+	virtual BGRPixel getColAtPoint(Point3D intPoint, Camera *cam, Ray &ray, Plane *plane, int str) const { return col; }
 };

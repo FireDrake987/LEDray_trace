@@ -12,13 +12,16 @@ MaterialReflective::MaterialReflective(BGRPixel col) : Material(col) {
 MaterialReflective::MaterialReflective() : Material() {
 	reflectance = 0.1;
 }
-BGRPixel MaterialReflective::getColAtPoint(Point3D intPoint, Camera* cam, Ray &ray, Plane *plane) const {
-	BGRPixel baseCol = Material::getColAtPoint(intPoint, cam, ray, plane);
+BGRPixel MaterialReflective::getColAtPoint(Point3D intPoint, Camera* cam, Ray &ray, Plane *plane, int str) const {
+	BGRPixel baseCol = Material::getColAtPoint(intPoint, cam, ray, plane, str);
 	Vector normal = plane->getNormal();
 	Vector rayDir = ray.getVector().normalize();
+	if (str < 0.1) {
+		return baseCol;
+	}
 	Vector reflectDir = rayDir - 2 * Vector::dot(rayDir, normal) * normal;
 	Ray reflectRay(intPoint, reflectDir);
-	BGRPixel reflectCol = cam->traceRay(reflectRay);
+	BGRPixel reflectCol = cam->traceRay(reflectRay, str);
 	return BGRPixel{
 		static_cast<uint8_t>(baseCol.b * (1 - reflectance) + reflectCol.b * reflectance),
 		static_cast<uint8_t>(baseCol.g * (1 - reflectance) + reflectCol.g * reflectance),
