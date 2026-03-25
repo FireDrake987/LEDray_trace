@@ -48,6 +48,9 @@
     <ClInclude Include="Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MaterialReflective.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LEDray_trace.cpp">
@@ -69,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialReflective.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

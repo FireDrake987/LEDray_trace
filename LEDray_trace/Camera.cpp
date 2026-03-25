@@ -118,27 +118,32 @@ std::vector<BGRPixel> Camera::render(int x1, int y1, int x2, int y2) {
 		for(int j = x1; j < x2; j++) {
 			Vector value = row.at(j);
 			Ray ray = Ray(Point3D(x, y, z), value);
-			Plane* minObj = nullptr;
-			intersectionInfoStruct minInfo;
-			minInfo.t = Camera::RENDER;
-			for(Plane *obj : scene) {
-				intersectionInfoStruct info = obj->getIntersection(ray);
-				if(info.t < 0) { continue; }
-				if(info.t < minInfo.t) {
-					minInfo = info;
-					minObj = obj;
-				}
-			}
-			if(minObj && minInfo.t < Camera::RENDER) {
-				output.push_back(minObj->getMaterial().getColAtPoint(minInfo.point, scene));
-			}
-			else {
-				output.push_back(Camera::DEFAULT_COLOR);
-			}
+			output.push_back(traceRay(ray));
 		}
 	}
 	return output;
 }
+
+BGRPixel Camera::traceRay(Ray ray) {
+	Plane* minObj = nullptr;
+	intersectionInfoStruct minInfo;
+	minInfo.t = Camera::RENDER;
+	for(Plane *obj : scene) {
+		intersectionInfoStruct info = obj->getIntersection(ray);
+		if(info.t < 0) { continue; }
+		if(info.t < minInfo.t) {
+			minInfo = info;
+			minObj = obj;
+		}
+	}
+	if(minObj && minInfo.t < Camera::RENDER) {
+		return minObj->getMaterial().getColAtPoint(minInfo.point, this, ray, minObj);
+	}
+	else {
+		return Camera::DEFAULT_COLOR;
+	}
+}
+
 Vector Camera::angleToVector(double yaw, double pitch) {
 	double sinyaw = sinf(yaw);
 	double sinpitch = sinf(pitch);
