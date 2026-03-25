@@ -58,3 +58,7 @@ intersectionInfoStruct Plane::getIntersection(Ray ray) {
 	info.point = start + info.t * dir.asPoint();
 	return info;
 }
+
+Vector Plane::getNormal() const {
+	return Vector(A, B, C).normalize();
+}
