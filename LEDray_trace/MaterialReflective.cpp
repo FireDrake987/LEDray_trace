@@ -20,7 +20,7 @@ BGRPixel MaterialReflective::getColAtPoint(Point3D intPoint, Camera* cam, Ray &r
 		return baseCol;
 	}
 	Vector reflectDir = rayDir - 2 * Vector::dot(rayDir, normal) * normal;
-	Ray reflectRay(intPoint, reflectDir);
+	Ray reflectRay(intPoint + (0.00001 * reflectDir).asPoint(), reflectDir);
 	BGRPixel reflectCol = cam->traceRay(reflectRay, str);
 	return BGRPixel{
 		static_cast<uint8_t>(baseCol.b * (1 - reflectance) + reflectCol.b * reflectance),
