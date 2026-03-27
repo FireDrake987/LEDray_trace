@@ -81,9 +81,9 @@ void Camera::eulerRotate(double yaw, double pitch) {
 	std::unique_lock<std::shared_mutex> lock(invalidateMut);
 	Vector yawAxis = Vector(0, 1, 0);
 	Vector pitchAxis = Vector(1, 0, 0);
-	yawAxis = camRot.apply(yawAxis.asPoint());
+	//yawAxis = camRot.apply(yawAxis.asPoint());//Disabled in order to prevent roll drift in function for fps style camera controls
 	Quaternion yawQ = Quaternion(cos(yaw / 2), yawAxis * sin(yaw / 2));
-	//pitchAxis = camRot.apply(pitchAxis.asPoint());//Disabled in order to prevent roll drift in function for fps style camera controls
+	pitchAxis = camRot.apply(pitchAxis.asPoint());
 	Quaternion pitchQ = Quaternion(cos(pitch / 2), pitchAxis * sin(pitch / 2));
 	camRot = yawQ * pitchQ * camRot;
 	camRot = camRot.normalize();
