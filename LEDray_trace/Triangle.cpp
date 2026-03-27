@@ -31,7 +31,9 @@ intersectionInfoStruct Triangle::getIntersection(Ray ray) {
 
     const double epsilon = -1e-6;
     if(u < epsilon || v < epsilon || w < epsilon) {
-        info.t = -1;
+        if(u > 1.0 + epsilon || v > 1.0 + epsilon || w > 1.0 + epsilon) {
+            info.t = -1;
+        }
     }
     return info;
 }
