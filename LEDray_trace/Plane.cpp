@@ -55,6 +55,9 @@ intersectionInfoStruct Plane::getIntersection(Ray ray) {
 	}
 	double numer = -(A * start.getX() + B * start.getY() + C * start.getZ() + D);
 	info.t = numer / denom;
+	if (info.t < 0) {
+		return info;//Intersection is behind the ray start
+	}
 	info.point = start + info.t * dir.asPoint();
 	return info;
 }

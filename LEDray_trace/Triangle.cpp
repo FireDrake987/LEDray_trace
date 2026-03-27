@@ -10,6 +10,9 @@ Triangle::Triangle() : Plane() {
 }
 intersectionInfoStruct Triangle::getIntersection(Ray ray) {
 	intersectionInfoStruct info = Plane::getIntersection(ray);
+	if (info.t < 0) {
+		return info;//No intersection with plane, so no intersection with triangle
+	}
 	Point3D p = info.point;
 	double sub1 = triangleArea(p, p1, p2);
 	double sub2 = triangleArea(p, p2, p3);
