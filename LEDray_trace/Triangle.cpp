@@ -8,13 +8,10 @@ Triangle::Triangle(Material material, Point3D p1, Point3D p2, Point3D p3) : Plan
 Triangle::Triangle() : Plane() {
 	this->p1 = this->p2 = this->p3 = Point3D();
 }
-intersectionInfoStruct Triangle::getIntersection(Ray ray) {
-    intersectionInfoStruct info = Plane::getIntersection(ray);
-    if (info.t < 0) return info;
-
+bool barycentricInside(Point3D p1, Point3D p2, Point3D p3, Point3D p) {
     Vector v0(p1, p2);
     Vector v1(p1, p3);
-    Vector v2(p1, info.point);
+    Vector v2(p1, p);
 
     double d00 = v0.dot(v0);
     double d01 = v0.dot(v1);
@@ -23,18 +20,26 @@ intersectionInfoStruct Triangle::getIntersection(Ray ray) {
     double d21 = v2.dot(v1);
 
     double denom = d00 * d11 - d01 * d01;
-    if (fabs(denom) < 1e-12) { info.t = -1; return info; }
+    if (fabs(denom) < 1e-12) { return false; }
 
     double v = (d11 * d20 - d01 * d21) / denom;
     double w = (d00 * d21 - d01 * d20) / denom;
     double u = 1.0 - v - w;
 
     const double epsilon = -1e-6;
-    if(u < epsilon || v < epsilon || w < epsilon) {
-        if(!(u < epsilon && v < epsilon && w < epsilon)) {
-            info.t = -1;
-        }
+    if(v > epsilon && w > epsilon && u > epsilon) {
+        return true;
     }
+    return false;
+}
+intersectionInfoStruct Triangle::getIntersection(Ray ray) {
+    intersectionInfoStruct info = Plane::getIntersection(ray);
+    if(info.t < 0) return info;
+
+    if(!barycentricInside(p1, p2, p3, info.point)) {
+        info.t = -1;
+    }
+    
     return info;
 }
 double Triangle::triangleArea(Point3D p1, Point3D p2, Point3D p3) {
