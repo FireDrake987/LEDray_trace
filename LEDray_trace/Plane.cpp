@@ -48,12 +48,13 @@ intersectionInfoStruct Plane::getIntersection(Ray ray) {
 	intersectionInfoStruct info{};
 	Point3D start = ray.getStart();
 	Vector dir = ray.getVector();
-	double denom = A * dir.getX() + B * dir.getY() + C * dir.getZ();
+	Vector n = Vector(A, B, C);
+	double denom = n.dot(dir);
 	if (fabs(denom) < 0.000000001) {//Effectively 0
 		info.t = -1;//Parallel
 		return info;
 	}
-	double numer = -(A * start.getX() + B * start.getY() + C * start.getZ() + D);
+	double numer = -(n.dot(start) + D);
 	info.t = numer / denom;
 	if (info.t < 0) {
 		return info;//Intersection is behind the ray start
