@@ -152,5 +152,5 @@ Vector Camera::angleToVector(double yaw, double pitch) {
 	double sinpitch = sinf(pitch);
 	double cosyaw = cosf(yaw);
 	double cospitch = cosf(pitch);
-	return Vector(cospitch*sinyaw, sinpitch, -cospitch*cosyaw);
+	return Vector(cospitch*sinyaw, sinpitch, cospitch*cosyaw);
 }
