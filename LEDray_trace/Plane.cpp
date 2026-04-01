@@ -2,17 +2,21 @@
 #include "Point3D.h"
 #include "Vector.h"
 #include "Material.h"
+#include <assert.h>
 
 Plane::Plane(Material material, Point3D p1, Point3D p2, Point3D p3) {
 	this->mat = material;
-	Vector v1 = Vector(p2, p1);
-	Vector v2 = Vector(p3, p1);
+	Vector v1 = p2-p1;
+	Vector v2 = p3-p1;
 	Vector n = v1.cross(v2).normalize();
 	this->A = n.getX();
 	this->B = n.getY();
 	this->C = n.getZ();
-	this->D = -(A*p1.getX()+B*p1.getY()+C*p1.getZ());//Ax+By+Cz+D=0
+	this->D = -(n.dot(p1));//Ax+By+Cz+D=0
 	this->pointOnPlane = p1;
+	assert(n.dot(p1) + D < 0.00001 && n.dot(p1) + D > -0.00001);
+	assert(n.dot(p2) + D < 0.00001 && n.dot(p2) + D > -0.00001);
+	assert(n.dot(p3) + D < 0.00001 && n.dot(p3) + D > -0.00001);
 }
 Plane::Plane(Material material, double a, double b, double c, double d) {
 	this->mat = material;
