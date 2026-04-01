@@ -5,9 +5,9 @@
 
 Plane::Plane(Material material, Point3D p1, Point3D p2, Point3D p3) {
 	this->mat = material;
-	Vector v1 = Vector(p1, p2);
-	Vector v2 = Vector(p1, p3);
-	Vector n = v2.cross(v1).normalize();
+	Vector v1 = Vector(p2, p1);
+	Vector v2 = Vector(p3, p1);
+	Vector n = v1.cross(v2).normalize();
 	this->A = n.getX();
 	this->B = n.getY();
 	this->C = n.getZ();
