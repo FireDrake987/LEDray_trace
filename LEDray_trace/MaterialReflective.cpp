@@ -16,7 +16,7 @@ BGRPixel MaterialReflective::getColAtPoint(Point3D intPoint, Camera* cam, Ray &r
 	BGRPixel baseCol = Material::getColAtPoint(intPoint, cam, ray, plane, str);
 	Vector normal = plane->getNormal();
 	Vector rayDir = ray.getVector().normalize();
-	if (str < 0.1) {
+	if (str < Camera::minStr) {
 		return baseCol;
 	}
 	Vector reflectDir = rayDir - 2 * Vector::dot(rayDir, normal) * normal;

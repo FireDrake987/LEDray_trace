@@ -33,9 +33,9 @@ void Camera::move(Vector dir) {
 }
 void Camera::move(double right, double down, double forwards) {
 	std::unique_lock<std::shared_mutex> lock(invalidateMut);
-	Vector rightVec = camRot.apply(Vector(1, 0, 0).asPoint());
-	Vector downVec = camRot.apply(Vector(0, 1, 0).asPoint());
-	Vector forwardVec = camRot.apply(Vector(0, 0, 1).asPoint());
+	Vector rightVec = camRot.apply(Vector(1, 0, 0));
+	Vector downVec = camRot.apply(Vector(0, 1, 0));
+	Vector forwardVec = camRot.apply(Vector(0, 0, 1));
 	this->x += rightVec.getX() * right + downVec.getX() * down + forwardVec.getX() * forwards;
 	this->y += rightVec.getY() * right + downVec.getY() * down + forwardVec.getY() * forwards;
 	this->z += rightVec.getZ() * right + downVec.getZ() * down + forwardVec.getZ() * forwards;
@@ -59,7 +59,7 @@ void Camera::buildMap() {
 			for(int w = 0; w < width; w++) {
 				double wRatio = (1.0*w) / (width-1);
 				Vector result = min + addX * wRatio + addY * hRatio;
-				result = camRot.apply(result.asPoint());
+				result = camRot.apply(result);
 				accumulator.push_back(result.normalize());
 			}
 			map.push_back(accumulator);
@@ -70,7 +70,7 @@ void Camera::buildMap() {
 			std::vector<Vector> accumulator;
 			for(double yaw = (-FOVx / 2); yaw < FOVx / 2; yaw += FOVx / width) {
 				Vector result = angleToVector(yaw, pitch).normalize();
-				result = camRot.apply(result.asPoint());
+				result = camRot.apply(result);
 				accumulator.push_back(result);
 			}
 			map.push_back(accumulator);
@@ -81,9 +81,9 @@ void Camera::eulerRotate(double yaw, double pitch) {
 	std::unique_lock<std::shared_mutex> lock(invalidateMut);
 	Vector yawAxis = Vector(0, 1, 0);
 	Vector pitchAxis = Vector(1, 0, 0);
-	//yawAxis = camRot.apply(yawAxis.asPoint());//Disabled in order to prevent roll drift in function for fps style camera controls
+	//yawAxis = camRot.apply(yawAxis);//Disabled in order to prevent roll drift in function for fps style camera controls
 	Quaternion yawQ = Quaternion(cos(yaw / 2), yawAxis * sin(yaw / 2));
-	pitchAxis = camRot.apply(pitchAxis.asPoint());
+	pitchAxis = camRot.apply(pitchAxis);
 	Quaternion pitchQ = Quaternion(cos(pitch / 2), pitchAxis * sin(pitch / 2));
 	camRot = yawQ * pitchQ * camRot;
 	camRot = camRot.normalize();
@@ -95,11 +95,11 @@ void Camera::eulerRotate(double yaw, double pitch, double roll) {
 	Vector yawAxis = Vector(0, 1, 0);
 	Vector pitchAxis = Vector(1, 0, 0);
 	Vector rollAxis = Vector(0, 0, 1);
-	yawAxis = camRot.apply(yawAxis.asPoint());
+	yawAxis = camRot.apply(yawAxis);
 	Quaternion yawQ = Quaternion(cos(yaw / 2), yawAxis * sin(yaw / 2));
-	pitchAxis = camRot.apply(pitchAxis.asPoint());
+	pitchAxis = camRot.apply(pitchAxis);
 	Quaternion pitchQ = Quaternion(cos(pitch / 2), pitchAxis * sin(pitch / 2));
-	rollAxis = camRot.apply(rollAxis.asPoint());
+	rollAxis = camRot.apply(rollAxis);
 	Quaternion rollQ = Quaternion(cos(roll / 2), rollAxis * sin(roll / 2));
 	camRot = yawQ * pitchQ * rollQ * camRot;
 	camRot = camRot.normalize();
@@ -125,7 +125,7 @@ std::vector<BGRPixel> Camera::render(int x1, int y1, int x2, int y2) {
 }
 
 BGRPixel Camera::traceRay(Ray ray, double str) {
-	if(str < 0.1) {
+	if(str < Camera::minStr) {
 		return Camera::DEFAULT_COLOR;
 	}
 	Plane* minObj = nullptr;
