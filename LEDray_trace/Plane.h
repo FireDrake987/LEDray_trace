@@ -62,5 +62,5 @@ public:
 
 	inline Point3D getPointOnPlane() const { return pointOnPlane; }
 
-	Vector getNormal() const;
+	virtual Vector getNormal() const;
 };

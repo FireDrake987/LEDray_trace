@@ -140,7 +140,7 @@ public:
 	//       It is unnecessary to ever call this function directly, as it will be automatically called by the render function when needed. However, it can be called directly if you want to pre-build the camera before rendering to avoid the overhead of building during the first render call.
 	//       This function will do nothing if invalidate() has not been called since the last build, so it is safe to call multiple times without needing to worry about redundant builds.
 	//
-	void build();//Rebuild Camera based on current data, sets ready=true
+	virtual void build();//Rebuild Camera based on current data, sets ready=true
 
 	//
 	//  FUNCTION: buildMap()
@@ -170,7 +170,7 @@ public:
 	//
 	//  PURPOSE: Traces the given ray through the scene and returns the color of the pixel that the ray intersects. The str parameter represents the strength of the ray, which can be used to control how much the color is affected by reflections and other factors (e.g., if str is less than a certain threshold, it might return a default color instead of tracing further to avoid infinite recursion). This function iterates through all objects in the scene to find the closest intersection with the ray, and then calculates the color at that intersection point based on the material properties of the object and any lighting or reflections.
 	//
-	BGRPixel traceRay(Ray ray, double str);
+	virtual BGRPixel traceRay(Ray ray, double str);
 
 	//
 	//  FUNCTION: angleToVector(double, double)
