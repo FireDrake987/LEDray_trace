@@ -1,0 +1,14 @@
+\doxysection{intersection\+Info\+Struct.\+h}
+\hypertarget{intersection_info_struct_8h_source}{}\label{intersection_info_struct_8h_source}\index{intersectionInfoStruct.h@{intersectionInfoStruct.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}Point3D.h"{}}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{comment}{//Just\ what\ the\ name\ says,\ a\ struct\ with\ intersection\ info.\ This\ is\ used\ as\ the\ return\ type\ for\ the\ getIntersection\ functions\ of\ Plane\ and\ Triangle,\ and\ contains\ the\ parameter\ t\ at\ which\ the\ ray\ intersects\ the\ plane/triangle,\ as\ well\ as\ the\ actual\ intersection\ point\ in\ 3D\ space.\ If\ there\ is\ no\ intersection,\ t\ <\ 0,\ and\ the\ point\ may\ not\ be\ valid\ (e.g.,\ it\ may\ be\ (0,\ 0,\ 0),\ uninitialized,\ or\ some\ other\ random\ value).}}
+\DoxyCodeLine{00005\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{structintersection_info_struct}{intersectionInfoStruct}}\ \{}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{keywordtype}{double}\ t;}
+\DoxyCodeLine{00007\ \ \ \ \ \doxymbox{\hyperlink{class_point3_d}{Point3D}}\ point;}
+\DoxyCodeLine{00008\ \};}
+
+\end{DoxyCode}
